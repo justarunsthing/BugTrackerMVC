@@ -5,3 +5,5 @@
 /.vs
 /obj
 /Properties
+/bin/Debug/net9.0
+/BugTrackerMVC.csproj.user
