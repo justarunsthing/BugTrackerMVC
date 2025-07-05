@@ -22,9 +22,11 @@ namespace BugTrackerMVC.Services
         {
             throw new NotImplementedException();
         }
-        public Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
+        public async Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
         {
-            throw new NotImplementedException();
+            var result = await _userManager.GetRolesAsync(user);
+
+            return result;
         }
         public async Task<bool> AddUserToRoleAsync(BTUser user, string roleName)
         {
