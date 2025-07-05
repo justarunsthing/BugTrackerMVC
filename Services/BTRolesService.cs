@@ -1,10 +1,18 @@
 ﻿using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
+using BugTrackerMVC.Data;
 
 namespace BugTrackerMVC.Services
 {
     public class BTRolesService : IBTRolesService
     {
+        private readonly ApplicationDbContext _context;
+
+        public BTRolesService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+        
         public Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
         {
             throw new NotImplementedException();
