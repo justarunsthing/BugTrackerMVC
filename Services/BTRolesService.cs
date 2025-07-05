@@ -1,16 +1,19 @@
 ﻿using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
 using BugTrackerMVC.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace BugTrackerMVC.Services
 {
     public class BTRolesService : IBTRolesService
     {
         private readonly ApplicationDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public BTRolesService(ApplicationDbContext context)
+        public BTRolesService(ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _roleManager = roleManager;
         }
         
         public Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
