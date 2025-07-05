@@ -9,11 +9,13 @@ namespace BugTrackerMVC.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<BTUser> _userManager;
 
-        public BTRolesService(ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
+        public BTRolesService(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, UserManager<BTUser> userManager)
         {
             _context = context;
             _roleManager = roleManager;
+            _userManager = userManager;
         }
         
         public Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
