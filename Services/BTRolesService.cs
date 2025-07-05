@@ -49,9 +49,12 @@ namespace BugTrackerMVC.Services
             throw new NotImplementedException();
         }
 
-        public Task<string> GetRoleNameByIdAsync(string roleId)
+        public async Task<string> GetRoleNameByIdAsync(string roleId)
         {
-            throw new NotImplementedException();
+            var role = _context.Roles.Find(roleId);
+            var result = await _roleManager.GetRoleNameAsync(role);
+
+            return result;
         }
     }
 }
