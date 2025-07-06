@@ -1,6 +1,7 @@
 ﻿using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
 using BugTrackerMVC.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerMVC.Services
 {
@@ -13,9 +14,11 @@ namespace BugTrackerMVC.Services
             _context = context;
         }
 
-        public Task<List<BTUser>> GetAllMembersAsync(int companyId)
+        public async Task<List<BTUser>> GetAllMembersAsync(int companyId)
         {
-            throw new NotImplementedException();
+            var result = await _context.Users.Where(u => u.CompanyId == companyId).ToListAsync();
+
+            return result;
         }
 
         public Task<List<Project>> GetAllProjectsAsync(int companyId)
