@@ -25,6 +25,7 @@ builder.Services.AddRazorPages();
 
 // Services
 builder.Services.AddScoped<IBTRolesService, BTRolesService>();
+builder.Services.AddScoped<IBTCompanyInfoService, BTCompanyInfoService>();
 
 var app = builder.Build();
 
