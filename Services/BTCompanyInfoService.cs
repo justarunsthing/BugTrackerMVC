@@ -29,6 +29,21 @@ namespace BugTrackerMVC.Services
                                                     // Include tickets comments
                                                     .ThenInclude(t => t.TicketComments)
                                                 .Include(p => p.Tickets)
+                                                    // Include ticket attachments
+                                                    .ThenInclude(t => t.TicketAttachments)
+                                                .Include(p => p.Tickets)
+                                                    // Include ticket history
+                                                    .ThenInclude(t => t.History)
+                                                .Include(p => p.Tickets)
+                                                    // Include ticket notifications
+                                                    .ThenInclude(t => t.Notifications)
+                                                .Include(p => p.Tickets)
+                                                    // Include developer
+                                                    .ThenInclude(t => t.DeveloperUser)
+                                                .Include(p => p.Tickets)
+                                                    // Include ticket owner
+                                                    .ThenInclude(t => t.OwnerUser)
+                                                .Include(p => p.Tickets)
                                                     // Include ticket status
                                                     .ThenInclude(t => t.TicketStatus)
                                                 .Include(p => p.Tickets)
@@ -43,7 +58,7 @@ namespace BugTrackerMVC.Services
             return result;
         }
 
-        public Task<List<Ticket>> GetAllTicketsAsync(int companyId)
+        public async Task<List<Ticket>> GetAllTicketsAsync(int companyId)
         {
             throw new NotImplementedException();
         }
