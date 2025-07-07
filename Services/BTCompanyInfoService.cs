@@ -60,7 +60,10 @@ namespace BugTrackerMVC.Services
 
         public async Task<List<Ticket>> GetAllTicketsAsync(int companyId)
         {
-            throw new NotImplementedException();
+            var projects = await GetAllProjectsAsync(companyId);
+            var result = projects.SelectMany(p => p.Tickets).ToList();
+
+            return result;
         }
 
         public Task<Company> GetCompanyInfoByIdAsync(int? companyId)
