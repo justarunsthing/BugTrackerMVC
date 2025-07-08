@@ -1,10 +1,18 @@
-﻿using BugTrackerMVC.Models;
+﻿using BugTrackerMVC.Data;
+using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
 
 namespace BugTrackerMVC.Services
 {
     public class BTProjectService : IBTProjectService
     {
+        private readonly ApplicationDbContext _context;
+
+        public BTProjectService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public Task AddNewProjectAsync(Project project)
         {
             throw new NotImplementedException();
