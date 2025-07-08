@@ -13,9 +13,10 @@ namespace BugTrackerMVC.Services
             _context = context;
         }
 
-        public Task AddNewProjectAsync(Project project)
+        public async Task AddNewProjectAsync(Project project)
         {
-            throw new NotImplementedException();
+            _context.Add(project);
+            await _context.SaveChangesAsync();
         }
 
         public Task<bool> AddProjectManagerAsync(string userId, int projectId)
