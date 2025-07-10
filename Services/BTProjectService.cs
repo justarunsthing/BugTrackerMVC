@@ -44,7 +44,7 @@ namespace BugTrackerMVC.Services
 
         public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
         {
-            var result = await _context.Projects.Where(p => p.CompanyId == companyId)
+            var result = await _context.Projects.Where(p => p.CompanyId == companyId && p.IsArchived == false)
                                                 .Include(p => p.Members)
                                                 .Include(p => p.Tickets)
                                                     // Include tickets comments
