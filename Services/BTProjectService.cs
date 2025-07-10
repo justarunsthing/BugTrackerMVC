@@ -79,9 +79,12 @@ namespace BugTrackerMVC.Services
             return result;
         }
 
-        public Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
+        public async Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
         {
-            throw new NotImplementedException();
+            var projects = await GetAllProjectsByCompany(companyId);
+            var priorityId = await LookupProjectPriorityId(priorityName);
+
+            return projects.Where(p => p.ProjectPriorityId == priorityId).ToList();
         }
 
         public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
