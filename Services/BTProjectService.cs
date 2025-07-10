@@ -137,9 +137,11 @@ namespace BugTrackerMVC.Services
             throw new NotImplementedException();
         }
 
-        public Task<int> LookupProjectPriorityId(string priorityName)
+        public async Task<int> LookupProjectPriorityId(string priorityName)
         {
-            throw new NotImplementedException();
+            var priorityId = (await _context.ProjectPriorities.FirstOrDefaultAsync(p => p.Name == priorityName)).Id;
+
+            return priorityId;
         }
 
         public Task RemoveProjectManagerAsync(int projectId)
