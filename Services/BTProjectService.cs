@@ -135,9 +135,19 @@ namespace BugTrackerMVC.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> IsUserOnProject(string userId, int projectId)
+        public async Task<bool> IsUserOnProject(string userId, int projectId)
         {
-            throw new NotImplementedException();
+            var result = false;
+            var project = await _context.Projects
+                                        .Include(p => p.Members)
+                                        .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (project != null)
+            {
+                result = project.Members.Any(m => m.Id == userId);
+            }
+
+            return result;
         }
 
         public async Task<int> LookupProjectPriorityId(string priorityName)
