@@ -151,9 +151,36 @@ namespace BugTrackerMVC.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Project>> GetUserProjectsAsync(string userId)
+        public async Task<List<Project>> GetUserProjectsAsync(string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userProjects = (await _context.Users
+                                                 .Include(u => u.Projects)
+                                                    .ThenInclude(p => p.Company)
+                                                 .Include(u => u.Projects)
+                                                    .ThenInclude(p => p.Members)
+                                                 .Include(u => u.Projects)
+                                                    .ThenInclude(p => p.Tickets)
+                                                        .ThenInclude(t => t.DeveloperUser)
+                                                 .Include(u => u.Projects)
+                                                    .ThenInclude(p => p.Tickets)
+                                                        .ThenInclude(t => t.TicketPriority)
+                                                .Include(u => u.Projects)
+                                                    .ThenInclude(t => t.Tickets)
+                                                        .ThenInclude(t => t.TicketStatus)
+                                                .Include(u => u.Projects)
+                                                    .ThenInclude(t => t.Tickets)
+                                                        .ThenInclude(t => t.TicketType)
+                                                .FirstOrDefaultAsync(u => u.Id == userId)).Projects.ToList();
+
+                return userProjects;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving user projects: {ex.Message}");
+                throw;
+            }
         }
 
         public Task<List<BTUser>> GetUsersNotOnProjectAsync(int projectId, int companyId)
