@@ -8,10 +8,12 @@ namespace BugTrackerMVC.Services
     public class BTProjectService : IBTProjectService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IBTRolesService _rolesService;
 
-        public BTProjectService(ApplicationDbContext context)
+        public BTProjectService(ApplicationDbContext context, IBTRolesService rolesService)
         {
             _context = context;
+            _rolesService = rolesService;
         }
 
         public async Task AddNewProjectAsync(Project project)
