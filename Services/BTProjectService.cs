@@ -2,6 +2,7 @@
 using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using BugTrackerMVC.Enums;
 
 namespace BugTrackerMVC.Services
 {
@@ -65,9 +66,14 @@ namespace BugTrackerMVC.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId)
+        public async Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId)
         {
-            throw new NotImplementedException();
+            var developers = await GetProjectMembersByRoleAsync(projectId, Roles.Developer.ToString());
+            var submitters = await GetProjectMembersByRoleAsync(projectId, Roles.Submitter.ToString());
+            var admins = await GetProjectMembersByRoleAsync(projectId, Roles.Admin.ToString());
+            var teamMembers = developers.Concat(submitters).Concat(admins).ToList();
+
+            return teamMembers;
         }
 
         public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
