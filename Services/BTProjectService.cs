@@ -143,9 +143,23 @@ namespace BugTrackerMVC.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<BTUser>> GetProjectMembersByRoleAsync(int projectId, string role)
+        public async Task<List<BTUser>> GetProjectMembersByRoleAsync(int projectId, string role)
         {
-            throw new NotImplementedException();
+            var project = await _context.Projects
+                            .Include(p => p.Members)
+                            .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            List<BTUser> members = new();
+
+            foreach (var user in project.Members)
+            {
+                if (await _rolesService.IsUserInRoleAsync(user, role))
+                {
+                    members.Add(user);
+                }
+            }
+
+            return members;
         }
 
         public Task<List<BTUser>> GetSubmittersOnProjectAsync(int projectId)
