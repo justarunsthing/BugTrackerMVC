@@ -205,9 +205,11 @@ namespace BugTrackerMVC.Services
             }
         }
 
-        public Task<List<BTUser>> GetUsersNotOnProjectAsync(int projectId, int companyId)
+        public async Task<List<BTUser>> GetUsersNotOnProjectAsync(int projectId, int companyId)
         {
-            throw new NotImplementedException();
+            var users = await _context.Users.Where(u => u.Projects.All(p => p.Id != projectId)).ToListAsync();
+
+            return users.Where(u => u.CompanyId == companyId).ToList();
         }
 
         public async Task<bool> IsUserOnProject(string userId, int projectId)
