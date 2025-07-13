@@ -43,7 +43,7 @@ namespace BugTrackerMVC.Services
 
             try
             {
-                await AddProjectManagerAsync(userId, projectId);
+                await AddUserToProjectAsync(userId, projectId);
 
                 return true;
             }
