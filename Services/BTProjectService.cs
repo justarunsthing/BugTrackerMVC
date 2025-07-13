@@ -144,9 +144,24 @@ namespace BugTrackerMVC.Services
             return project;
         }
 
-        public Task<BTUser> GetProjectManagerAsync(int projectId)
+        public async Task<BTUser> GetProjectManagerAsync(int projectId)
         {
-            throw new NotImplementedException();
+            var project = await _context.Projects
+                                        .Include(p => p.Members)
+                                        .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (project != null)
+            {
+                foreach (var member in project.Members)
+                {
+                    if (await _rolesService.IsUserInRoleAsync(member, Roles.ProjectManager.ToString()))
+                    {
+                        return member;
+                    }
+                }
+            }
+
+            return null;
         }
 
         public async Task<List<BTUser>> GetProjectMembersByRoleAsync(int projectId, string role)
