@@ -249,9 +249,27 @@ namespace BugTrackerMVC.Services
             return priorityId;
         }
 
-        public Task RemoveProjectManagerAsync(int projectId)
+        public async Task RemoveProjectManagerAsync(int projectId)
         {
-            throw new NotImplementedException();
+            var project = await _context.Projects
+                                        .Include(p => p.Members)
+                                        .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            try
+            {
+                foreach (var member in project.Members)
+                {
+                    if (await _rolesService.IsUserInRoleAsync(member, Roles.ProjectManager.ToString()))
+                    {
+                        await RemoveUserFromProjectAsync(member.Id, projectId);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error removing project manager: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task RemoveUserFromProjectAsync(string userId, int projectId)
