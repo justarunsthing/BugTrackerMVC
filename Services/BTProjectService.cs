@@ -23,9 +23,36 @@ namespace BugTrackerMVC.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task<bool> AddProjectManagerAsync(string userId, int projectId)
+        public async Task<bool> AddProjectManagerAsync(string userId, int projectId)
         {
-            throw new NotImplementedException();
+            var currentPm = await GetProjectManagerAsync(projectId);
+
+            if (currentPm != null)
+            {
+                try
+                {
+                    await RemoveProjectManagerAsync(projectId);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error removing current project manager: {ex.Message}");
+
+                    return false;
+                }
+            }
+
+            try
+            {
+                await AddProjectManagerAsync(userId, projectId);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding new project manager: {ex.Message}");
+
+                return false;
+            }
         }
 
         public async Task<bool> AddUserToProjectAsync(string userId, int projectId)
