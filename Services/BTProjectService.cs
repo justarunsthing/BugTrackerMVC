@@ -63,7 +63,7 @@ namespace BugTrackerMVC.Services
             {
                 var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
 
-                if (!await IsUserOnProject(userId, projectId))
+                if (!await IsUserOnProjectAsync(userId, projectId))
                 {
                     try
                     {
@@ -103,7 +103,7 @@ namespace BugTrackerMVC.Services
             return teamMembers;
         }
 
-        public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
+        public async Task<List<Project>> GetAllProjectsByCompanyAsync(int companyId)
         {
             var result = await _context.Projects.Where(p => p.CompanyId == companyId && p.IsArchived == false)
                                                 .Include(p => p.Members)
@@ -140,17 +140,17 @@ namespace BugTrackerMVC.Services
             return result;
         }
 
-        public async Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
+        public async Task<List<Project>> GetAllProjectsByPriorityAsync(int companyId, string priorityName)
         {
-            var projects = await GetAllProjectsByCompany(companyId);
-            var priorityId = await LookupProjectPriorityId(priorityName);
+            var projects = await GetAllProjectsByCompanyAsync(companyId);
+            var priorityId = await LookupProjectPriorityIdAsync(priorityName);
 
             return projects.Where(p => p.ProjectPriorityId == priorityId).ToList();
         }
 
-        public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
+        public async Task<List<Project>> GetArchivedProjectsByCompanyAsync(int companyId)
         {
-            var projects = await GetAllProjectsByCompany(companyId);
+            var projects = await GetAllProjectsByCompanyAsync(companyId);
 
             return projects.Where(p => p.IsArchived == true).ToList();
         }
@@ -254,7 +254,7 @@ namespace BugTrackerMVC.Services
             return users.Where(u => u.CompanyId == companyId).ToList();
         }
 
-        public async Task<bool> IsUserOnProject(string userId, int projectId)
+        public async Task<bool> IsUserOnProjectAsync(string userId, int projectId)
         {
             var result = false;
             var project = await _context.Projects
@@ -269,7 +269,7 @@ namespace BugTrackerMVC.Services
             return result;
         }
 
-        public async Task<int> LookupProjectPriorityId(string priorityName)
+        public async Task<int> LookupProjectPriorityIdAsync(string priorityName)
         {
             var priorityId = (await _context.ProjectPriorities.FirstOrDefaultAsync(p => p.Name == priorityName)).Id;
 
@@ -308,7 +308,7 @@ namespace BugTrackerMVC.Services
 
                 try
                 {
-                    if (await IsUserOnProject(userId, projectId))
+                    if (await IsUserOnProjectAsync(userId, projectId))
                     {
                         project.Members.Remove(user);
                         await _context.SaveChangesAsync();
