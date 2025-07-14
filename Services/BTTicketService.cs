@@ -1,6 +1,6 @@
-﻿using BugTrackerMVC.Models;
+﻿using BugTrackerMVC.Data;
+using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
-using BugTrackerMVC.Data;
 
 namespace BugTrackerMVC.Services
 {
@@ -13,9 +13,10 @@ namespace BugTrackerMVC.Services
             _context = context;
         }
 
-        public Task AddNewTicketAsync(Ticket ticket)
+        public async Task AddNewTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            _context.Add(ticket);
+            await _context.SaveChangesAsync();
         }
 
         public Task ArchiveTicketAsync(Ticket ticket)
