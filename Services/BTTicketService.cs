@@ -1,10 +1,18 @@
 ﻿using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
+using BugTrackerMVC.Data;
 
 namespace BugTrackerMVC.Services
 {
     public class BTTicketService : IBTTicketService
     {
+        private readonly ApplicationDbContext _context;
+
+        public BTTicketService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public Task AddNewTicketAsync(Ticket ticket)
         {
             throw new NotImplementedException();
