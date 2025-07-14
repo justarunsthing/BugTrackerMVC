@@ -1,6 +1,7 @@
 ﻿using BugTrackerMVC.Data;
 using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerMVC.Services
 {
@@ -74,9 +75,9 @@ namespace BugTrackerMVC.Services
             throw new NotImplementedException();
         }
 
-        public Task<Ticket> GetTicketByIdAsync(int ticketId)
+        public async Task<Ticket> GetTicketByIdAsync(int ticketId)
         {
-            throw new NotImplementedException();
+            return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
         }
 
         public Task<BTUser> GetTicketDeveloperAsync(int ticketId)
