@@ -32,9 +32,29 @@ namespace BugTrackerMVC.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Ticket>> GetAllTicketsByCompanyAsync(int companyId)
+        public async Task<List<Ticket>> GetAllTicketsByCompanyAsync(int companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var tickets = await _context.Projects
+                                            .Where(p => p.CompanyId == companyId)
+                                            .SelectMany(p => p.Tickets)
+                                                .Include(t => t.TicketAttachments)
+                                                .Include(t => t.TicketComments)
+                                                .Include(t => t.History)
+                                                .Include(t => t.TicketPriority)
+                                                .Include(t => t.TicketStatus)
+                                                .Include(t => t.TicketType)
+                                                .Include(t => t.Project)
+                                            .ToListAsync();
+
+                return tickets;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetAllTicketsByPriorityAsync(int companyId, string priorityName)
@@ -106,7 +126,7 @@ namespace BugTrackerMVC.Services
 
                 return priority?.Id;
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
@@ -121,7 +141,7 @@ namespace BugTrackerMVC.Services
 
                 return status?.Id;
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
@@ -136,7 +156,7 @@ namespace BugTrackerMVC.Services
 
                 return type?.Id;
             }
-            catch
+            catch (Exception)
             {
                 throw;
             }
