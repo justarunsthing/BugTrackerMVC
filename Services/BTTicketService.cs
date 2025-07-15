@@ -57,9 +57,32 @@ namespace BugTrackerMVC.Services
             }
         }
 
-        public Task<List<Ticket>> GetAllTicketsByPriorityAsync(int companyId, string priorityName)
+        public async Task<List<Ticket>> GetAllTicketsByPriorityAsync(int companyId, string priorityName)
         {
-            throw new NotImplementedException();
+            var priorityId = (await LookupTicketPriorityIdAsync(priorityName)).Value; // Allow thread to complete
+
+            try
+            {
+                var tickets = await _context.Projects
+                                            .Where(p => p.CompanyId == companyId)
+                                            .SelectMany(p => p.Tickets)
+                                                .Include(t => t.TicketAttachments)
+                                                .Include(t => t.TicketComments)
+                                                .Include(t => t.DeveloperUser)
+                                                .Include(t => t.OwnerUser)
+                                                .Include(t => t.TicketPriority)
+                                                .Include(t => t.TicketStatus)
+                                                .Include(t => t.TicketType)
+                                                .Include(t => t.Project)
+                                            .Where(t => t.TicketPriorityId == priorityId)
+                                            .ToListAsync();
+
+                return tickets;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetAllTicketsByStatusAsync(int companyId, string statusName)
