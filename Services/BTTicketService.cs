@@ -2,6 +2,7 @@
 using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using BugTrackerMVC.Enums;
 
 namespace BugTrackerMVC.Services
 {
@@ -174,9 +175,39 @@ namespace BugTrackerMVC.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Ticket>> GetTicketsByRoleAsync(string role, string userId, int companyId)
+        public async Task<List<Ticket>> GetTicketsByRoleAsync(string role, string userId, int companyId)
         {
-            throw new NotImplementedException();
+            var tickets = new List<Ticket>();
+
+            try
+            {
+                if (role == Roles.Admin.ToString())
+                {
+                    tickets = await GetAllTicketsByCompanyAsync(companyId); // Admin can see all tickets
+                }
+                else if (role == Roles.Developer.ToString())
+                {
+                    tickets = (await GetAllTicketsByCompanyAsync(companyId))
+                                     .Where(t => t.DeveloperUserId == userId)
+                                     .ToList(); // Developer can see tickets assigned to them
+                }
+                else if (role == Roles.Submitter.ToString())
+                {
+                    tickets = (await GetAllTicketsByCompanyAsync(companyId))
+                                     .Where(t => t.OwnerUserId == userId)
+                                     .ToList(); // Submitter can see tickets they created
+                }
+                else if (role == Roles.ProjectManager.ToString())
+                {
+                    tickets = await GetTicketsByUserIdAsync(userId, companyId); // Project manager can see tickets for projects they manage
+                }
+
+                return tickets;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetTicketsByUserIdAsync(string userId, int companyId)
