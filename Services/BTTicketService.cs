@@ -216,7 +216,44 @@ namespace BugTrackerMVC.Services
 
         public async Task<List<Ticket>> GetTicketsByUserIdAsync(string userId, int companyId)
         {
-            throw new NotImplementedException();
+            var btUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var tickets = new List<Ticket>();
+
+            try
+            {
+                if (await _rolesService.IsUserInRoleAsync(btUser, Roles.Admin.ToString()))
+                {
+                    tickets = (await _projectService.GetAllProjectsByCompanyAsync(companyId))
+                                                    .SelectMany(p => p.Tickets)
+                                                    .ToList();
+                }
+                else if (await _rolesService.IsUserInRoleAsync(btUser, Roles.Developer.ToString()))
+                {
+                    tickets = (await _projectService.GetAllProjectsByCompanyAsync(companyId))
+                                                    .SelectMany(p => p.Tickets)
+                                                    .Where(t => t.DeveloperUserId == userId)
+                                                    .ToList();
+                }
+                else if (await _rolesService.IsUserInRoleAsync(btUser, Roles.Submitter.ToString()))
+                {
+                    tickets = (await _projectService.GetAllProjectsByCompanyAsync(companyId))
+                                                    .SelectMany(p => p.Tickets)
+                                                    .Where(t => t.OwnerUserId == userId)
+                                                    .ToList();
+                }
+                else if (await _rolesService.IsUserInRoleAsync(btUser, Roles.ProjectManager.ToString()))
+                {
+                    tickets = (await _projectService.GetUserProjectsAsync(userId))
+                                                    .SelectMany(p => p.Tickets)
+                                                    .ToList();
+                }
+
+                return tickets;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<int?> LookupTicketPriorityIdAsync(string priorityName)
