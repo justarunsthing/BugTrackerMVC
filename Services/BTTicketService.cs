@@ -9,10 +9,12 @@ namespace BugTrackerMVC.Services
     public class BTTicketService : IBTTicketService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IBTRolesService _rolesService;
 
-        public BTTicketService(ApplicationDbContext context)
+        public BTTicketService(ApplicationDbContext context, IBTRolesService rolesService)
         {
             _context = context;
+            _rolesService = rolesService;
         }
 
         public async Task AddNewTicketAsync(Ticket ticket)
@@ -210,7 +212,7 @@ namespace BugTrackerMVC.Services
             }
         }
 
-        public Task<List<Ticket>> GetTicketsByUserIdAsync(string userId, int companyId)
+        public async Task<List<Ticket>> GetTicketsByUserIdAsync(string userId, int companyId)
         {
             throw new NotImplementedException();
         }
