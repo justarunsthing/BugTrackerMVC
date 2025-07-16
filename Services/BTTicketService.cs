@@ -144,9 +144,20 @@ namespace BugTrackerMVC.Services
             }
         }
 
-        public Task<List<Ticket>> GetArchivedTicketsAsync(int companyId)
+        public async Task<List<Ticket>> GetArchivedTicketsAsync(int companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var tickets = (await GetAllTicketsByCompanyAsync(companyId))
+                                     .Where(t => t.IsArchived == true)
+                                     .ToList();
+
+                return tickets;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetProjectTicketsByPriorityAsync(string priorityName, int companyId, int projectId)
