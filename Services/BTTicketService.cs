@@ -10,11 +10,13 @@ namespace BugTrackerMVC.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IBTRolesService _rolesService;
+        private readonly IBTProjectService _projectService;
 
-        public BTTicketService(ApplicationDbContext context, IBTRolesService rolesService)
+        public BTTicketService(ApplicationDbContext context, IBTRolesService rolesService, IBTProjectService projectService)
         {
             _context = context;
             _rolesService = rolesService;
+            _projectService = projectService;
         }
 
         public async Task AddNewTicketAsync(Ticket ticket)
