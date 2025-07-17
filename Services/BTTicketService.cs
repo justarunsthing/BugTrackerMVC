@@ -32,9 +32,31 @@ namespace BugTrackerMVC.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task AssignTicketAsync(int ticketId, string userId)
+        public async Task AssignTicketAsync(int ticketId, string userId)
         {
-            throw new NotImplementedException();
+            var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
+
+            try
+            {
+                if (ticket != null)
+                {
+                    try
+                    {
+                        ticket.DeveloperUserId = userId;
+                        // Revisit this code when assigning Tickets
+                        ticket.TicketStatusId = (await LookupTicketStatusIdAsync("Development")).Value;
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<List<Ticket>> GetAllTicketsByCompanyAsync(int companyId)
