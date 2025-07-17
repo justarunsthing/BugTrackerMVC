@@ -185,9 +185,26 @@ namespace BugTrackerMVC.Services
             return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
         }
 
-        public Task<BTUser> GetTicketDeveloperAsync(int ticketId)
+        public async Task<BTUser> GetTicketDeveloperAsync(int ticketId, int companyId)
         {
-            throw new NotImplementedException();
+            var developer = new BTUser();
+
+            try
+            {
+                var ticket = (await GetAllTicketsByCompanyAsync(companyId))
+                                     .FirstOrDefault(t => t.Id == ticketId);
+
+                if (ticket?.DeveloperUserId != null)
+                {
+                    developer = ticket.DeveloperUser;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return developer;
         }
 
         public async Task<List<Ticket>> GetTicketsByRoleAsync(string role, string userId, int companyId)
