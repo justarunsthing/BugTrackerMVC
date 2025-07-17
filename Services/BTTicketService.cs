@@ -205,9 +205,22 @@ namespace BugTrackerMVC.Services
             }
         }
 
-        public Task<List<Ticket>> GetProjectTicketsByStatusAsync(string statusName, int companyId, int projectId)
+        public async Task<List<Ticket>> GetProjectTicketsByStatusAsync(string statusName, int companyId, int projectId)
         {
-            throw new NotImplementedException();
+            var tickets = new List<Ticket>();
+
+            try
+            {
+                tickets = (await GetAllTicketsByStatusAsync(companyId, statusName))
+                                     .Where(t => t.ProjectId == projectId)
+                                     .ToList();
+
+                return tickets;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetProjectTicketsByTypeAsync(string typeName, int companyId, int projectId)
