@@ -21,15 +21,29 @@ namespace BugTrackerMVC.Services
 
         public async Task AddNewTicketAsync(Ticket ticket)
         {
-            _context.Add(ticket);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Add(ticket);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task ArchiveTicketAsync(Ticket ticket)
         {
-            ticket.IsArchived = true;
-            _context.Update(ticket);
-            await _context.SaveChangesAsync();
+            try
+            {
+                ticket.IsArchived = true;
+                _context.Update(ticket);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task AssignTicketAsync(int ticketId, string userId)
@@ -256,7 +270,15 @@ namespace BugTrackerMVC.Services
 
         public async Task<Ticket> GetTicketByIdAsync(int ticketId)
         {
-            return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
+            try
+            {
+                return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }        
         }
 
         public async Task<BTUser> GetTicketDeveloperAsync(int ticketId, int companyId)
@@ -405,8 +427,15 @@ namespace BugTrackerMVC.Services
 
         public async Task UpdateTicketAsync(Ticket ticket)
         {
-            _context.Update(ticket);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Update(ticket);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
