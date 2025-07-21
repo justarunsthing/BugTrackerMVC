@@ -19,7 +19,7 @@ namespace BugTrackerMVC.Services
 
         public async Task AddNewProjectAsync(Project project)
         {
-            _context.Add(project);
+            await _context.AddAsync(project);
             await _context.SaveChangesAsync();
         }
 

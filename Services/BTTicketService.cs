@@ -23,7 +23,7 @@ namespace BugTrackerMVC.Services
         {
             try
             {
-                _context.Add(ticket);
+                await _context.AddAsync(ticket);
                 await _context.SaveChangesAsync();
             }
             catch (Exception)
