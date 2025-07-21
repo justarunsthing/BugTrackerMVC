@@ -18,9 +18,17 @@ namespace BugTrackerMVC.Services
             _rolesService = rolesService;
         }
 
-        public Task AddNotificationAsync(Notification notification)
+        public async Task AddNotificationAsync(Notification notification)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _context.AddAsync(notification);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<List<Notification>> GetReceivedNotificationsAsync(string userId)
