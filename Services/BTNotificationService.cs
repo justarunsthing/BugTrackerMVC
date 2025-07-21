@@ -2,6 +2,7 @@
 using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerMVC.Services
 {
@@ -31,9 +32,24 @@ namespace BugTrackerMVC.Services
             }
         }
 
-        public Task<List<Notification>> GetReceivedNotificationsAsync(string userId)
+        public async Task<List<Notification>> GetReceivedNotificationsAsync(string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var notifications = await _context.Notifications
+                                                  .Include(n => n.Recipient)
+                                                  .Include(n => n.Sender)
+                                                  .Include(n => n.Ticket)
+                                                    .ThenInclude(t => t.Project)
+                                                  .Where(n => n.RecipientId == userId)
+                                                  .ToListAsync();
+
+                return notifications;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<List<Notification>> GetSentNotificationsAsync(string userId)
