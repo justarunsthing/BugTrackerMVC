@@ -119,9 +119,23 @@ namespace BugTrackerMVC.Services
             }
         }
 
-        public Task SendMembersEmailNotificationsAsync(Notification notification, List<BTUser> members)
+        public async Task SendMembersEmailNotificationsAsync(Notification notification, List<BTUser> members)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (members != null && members.Count > 0)
+                {
+                    foreach (var btUser in members)
+                    {
+                        notification.RecipientId = btUser.Id;
+                        await SendEmailNotificationAsync(notification, notification.Title);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
