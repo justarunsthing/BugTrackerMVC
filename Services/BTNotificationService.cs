@@ -98,9 +98,25 @@ namespace BugTrackerMVC.Services
             }
         }
 
-        public Task SendEmailNotificationsByRoleAsync(Notification notification, int companyId, string role)
+        public async Task SendEmailNotificationsByRoleAsync(Notification notification, int companyId, string role)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var members = await _rolesService.GetUsersInRoleAsync(role, companyId);
+
+                if (members != null && members.Count > 0)
+                {
+                    foreach (var btUser in members)
+                    {
+                        notification.RecipientId = btUser.Id;
+                        await SendEmailNotificationAsync(notification, notification.Title);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task SendMembersEmailNotificationsAsync(Notification notification, List<BTUser> members)
