@@ -1,6 +1,7 @@
 ﻿using BugTrackerMVC.Data;
 using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerMVC.Services
 {
@@ -13,9 +14,28 @@ namespace BugTrackerMVC.Services
             _context = context;
         }
 
-        public Task<bool> AcceptInviteAsync(Guid? token, string userId, int companyId)
+        public async Task<bool> AcceptInviteAsync(Guid? token, string userId, int companyId)
         {
-            throw new NotImplementedException();
+            var invite = await _context.Invites.FirstOrDefaultAsync(i => i.CompanyToke == token);
+
+            if (invite == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                invite.IsValid = false; // Invite accepted, no longer available to use
+                invite.InviteeId = userId;
+
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task AddNewInviteAsync(Invite invite)
