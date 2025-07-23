@@ -1,10 +1,18 @@
-﻿using BugTrackerMVC.Models;
+﻿using BugTrackerMVC.Data;
+using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
 
 namespace BugTrackerMVC.Services
 {
     public class BTInviteService : IBTInviteService
     {
+        private readonly ApplicationDbContext _context;
+
+        public BTInviteService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public Task<bool> AcceptInviteAsync(Guid? token, string userId, int companyId)
         {
             throw new NotImplementedException();
