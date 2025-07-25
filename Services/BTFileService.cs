@@ -47,7 +47,7 @@ namespace BugTrackerMVC.Services
 
             while (Math.Round(fileSize / 1024) >= 1)
             {
-                fileSize /= bytes;
+                fileSize /= 1024;
                 counter++;
             }
 
