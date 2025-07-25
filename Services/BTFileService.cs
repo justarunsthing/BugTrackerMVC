@@ -56,7 +56,16 @@ namespace BugTrackerMVC.Services
 
         public string GetFileIcon(string file)
         {
-            throw new NotImplementedException();
+            var fileImage = "default";
+
+            if (!string.IsNullOrWhiteSpace(file))
+            {
+                fileImage = Path.GetExtension(file).Replace(".", "");
+
+                return $"/img/png/{fileImage}.png";
+            }
+
+            return fileImage;
         }
     }
 }
