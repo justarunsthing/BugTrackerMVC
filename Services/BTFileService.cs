@@ -42,7 +42,16 @@ namespace BugTrackerMVC.Services
 
         public string FormatFileSize(long bytes)
         {
-            throw new NotImplementedException();
+            var counter = 0;
+            decimal fileSize = bytes;
+
+            while (Math.Round(fileSize / 1024) >= 1)
+            {
+                fileSize /= bytes;
+                counter++;
+            }
+
+            return string.Format("{0:n1}{1}", fileSize, suffixes[counter]); // n1 formats to one decimal place
         }
 
         public string GetFileIcon(string file)
