@@ -20,9 +20,24 @@ namespace BugTrackerMVC.Services
             }
         }
 
-        public Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
+        public async Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var memoryStream = new MemoryStream();
+                await file.CopyToAsync(memoryStream);
+
+                var byteFile = memoryStream.ToArray();
+
+                memoryStream.Close();
+                memoryStream.Dispose();
+
+                return byteFile;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public string FormatFileSize(long bytes)
