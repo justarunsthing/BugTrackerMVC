@@ -4,6 +4,8 @@ namespace BugTrackerMVC.Services
 {
     public class BTFileService : IBTFileService
     {
+        private readonly string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
+
         public string ConvertByteArrayToFile(byte[] fileData, string extension)
         {
             throw new NotImplementedException();
