@@ -8,7 +8,16 @@ namespace BugTrackerMVC.Services
 
         public string ConvertByteArrayToFile(byte[] fileData, string extension)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var imageBase64Data = Convert.ToBase64String(fileData);
+
+                return string.Format($"data:{extension};base64,{imageBase64Data}");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
