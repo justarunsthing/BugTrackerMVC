@@ -13,7 +13,7 @@ namespace BugTrackerMVC.Models
         public DateTimeOffset JoinDate { get; set; }
 
         [DisplayName("Code")]
-        public Guid CompanyToke { get; set; }
+        public Guid CompanyToken { get; set; }
 
         [DisplayName("Company")]
         public int CompanyId { get; set; }

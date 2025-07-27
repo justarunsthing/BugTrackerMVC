@@ -16,7 +16,7 @@ namespace BugTrackerMVC.Services
 
         public async Task<bool> AcceptInviteAsync(Guid? token, string userId, int companyId)
         {
-            var invite = await _context.Invites.FirstOrDefaultAsync(i => i.CompanyToke == token);
+            var invite = await _context.Invites.FirstOrDefaultAsync(i => i.CompanyToken == token);
 
             if (invite == null)
             {
@@ -56,7 +56,7 @@ namespace BugTrackerMVC.Services
             try
             {
                 var result = await _context.Invites.Where(i => i.CompanyId == companyId)
-                                                   .AnyAsync(i => i.CompanyToke == token && i.InviteeEmail == email);
+                                                   .AnyAsync(i => i.CompanyToken == token && i.InviteeEmail == email);
 
                 return result;
             }
@@ -92,7 +92,7 @@ namespace BugTrackerMVC.Services
                                                    .Include(i => i.Company)
                                                    .Include(i => i.Project)
                                                    .Include(i => i.Invitor)
-                                                   .FirstOrDefaultAsync(i => i.CompanyToke == token && i.InviteeEmail == email);
+                                                   .FirstOrDefaultAsync(i => i.CompanyToken == token && i.InviteeEmail == email);
 
                 return invite;
             }
@@ -110,7 +110,7 @@ namespace BugTrackerMVC.Services
             }
 
             var result = false;
-            var invite = await _context.Invites.FirstOrDefaultAsync(i => i.CompanyToke == token);
+            var invite = await _context.Invites.FirstOrDefaultAsync(i => i.CompanyToken == token);
 
             if (invite != null)
             {
