@@ -23,7 +23,7 @@ namespace BugTrackerMVC.Models
         public IFormFile AvatarFormFile { get; set; }
 
         [Display(Name = "Avatar")]
-        public string AvatarFileName { get; set; }
+        public string? AvatarFileName { get; set; }
         public byte[]? AvatarFileData { get; set; }
 
         [Display(Name = "File Extension")]
