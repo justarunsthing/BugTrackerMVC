@@ -27,7 +27,7 @@ namespace BugTrackerMVC.Models
         public byte[] AvatarFileData { get; set; }
 
         [Display(Name = "File Extension")]
-        public string AvatarContentType { get; set; }
+        public string? AvatarContentType { get; set; }
         public int? CompanyId { get; set; }
 
         // Navigation properties
