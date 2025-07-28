@@ -3,6 +3,7 @@ using System;
 using BugTrackerMVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BugTrackerMVC.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250728074133_set-image-file-null")]
+    partial class setimagefilenull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,9 +135,11 @@ namespace BugTrackerMVC.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -160,18 +165,23 @@ namespace BugTrackerMVC.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("InviteeEmail")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("InviteeFirstName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("InviteeId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("InviteeLastName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("InvitorId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsValid")
@@ -252,15 +262,18 @@ namespace BugTrackerMVC.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset?>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ImageContentType")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<byte[]>("ImageFileData")
+                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<string>("ImageFileName")
@@ -298,6 +311,7 @@ namespace BugTrackerMVC.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -321,12 +335,14 @@ namespace BugTrackerMVC.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("DeveloperUserId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsArchived")
                         .HasColumnType("boolean");
 
                     b.Property<string>("OwnerUserId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("ProjectId")
@@ -378,21 +394,26 @@ namespace BugTrackerMVC.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("FileContentType")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<byte[]>("FileData")
+                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<string>("FileDescription")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("FileName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("TicketId")
                         .HasColumnType("integer");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -413,6 +434,7 @@ namespace BugTrackerMVC.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("Created")
@@ -422,6 +444,7 @@ namespace BugTrackerMVC.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -445,21 +468,26 @@ namespace BugTrackerMVC.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("NewValue")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("OldValue")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Property")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("TicketId")
                         .HasColumnType("integer");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -480,6 +508,7 @@ namespace BugTrackerMVC.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -496,6 +525,7 @@ namespace BugTrackerMVC.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -512,6 +542,7 @@ namespace BugTrackerMVC.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -685,11 +716,15 @@ namespace BugTrackerMVC.Data.Migrations
 
                     b.HasOne("BugTrackerMVC.Models.BTUser", "Invitee")
                         .WithMany()
-                        .HasForeignKey("InviteeId");
+                        .HasForeignKey("InviteeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BugTrackerMVC.Models.BTUser", "Invitor")
                         .WithMany()
-                        .HasForeignKey("InvitorId");
+                        .HasForeignKey("InvitorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BugTrackerMVC.Models.Project", "Project")
                         .WithMany()
@@ -752,11 +787,15 @@ namespace BugTrackerMVC.Data.Migrations
                 {
                     b.HasOne("BugTrackerMVC.Models.BTUser", "DeveloperUser")
                         .WithMany()
-                        .HasForeignKey("DeveloperUserId");
+                        .HasForeignKey("DeveloperUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BugTrackerMVC.Models.BTUser", "OwnerUser")
                         .WithMany()
-                        .HasForeignKey("OwnerUserId");
+                        .HasForeignKey("OwnerUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BugTrackerMVC.Models.Project", "Project")
                         .WithMany("Tickets")
@@ -805,7 +844,9 @@ namespace BugTrackerMVC.Data.Migrations
 
                     b.HasOne("BugTrackerMVC.Models.BTUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Ticket");
 
@@ -822,7 +863,9 @@ namespace BugTrackerMVC.Data.Migrations
 
                     b.HasOne("BugTrackerMVC.Models.BTUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Ticket");
 
@@ -839,7 +882,9 @@ namespace BugTrackerMVC.Data.Migrations
 
                     b.HasOne("BugTrackerMVC.Models.BTUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Ticket");
 

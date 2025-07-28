@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-BugTrackerMVC-030743a5-84d4-468c-ac34-739724559372</UserSecretsId>
   </PropertyGroup>
