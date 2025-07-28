@@ -50,6 +50,7 @@ namespace BugTrackerMVC.Data
             var svcProvider = svcScope.ServiceProvider;
             //Service: An instance of RoleManager
             var dbContextSvc = svcProvider.GetRequiredService<ApplicationDbContext>();
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             //Service: An instance of RoleManager
             var roleManagerSvc = svcProvider.GetRequiredService<RoleManager<IdentityRole>>();
             //Service: An instance of the UserManager
