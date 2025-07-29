@@ -1,4 +1,5 @@
 ﻿using BugTrackerMVC.Models;
+using System.Security.Claims;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity;
 
@@ -12,6 +13,14 @@ namespace BugTrackerMVC.Services.Factories
         : base(userManager, roleManager, optionsAccessor)
         {
    
+        }
+
+        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(BTUser user)
+        {
+            ClaimsIdentity identity = await base.GenerateClaimsAsync(user);
+            identity.AddClaim(new Claim("CompanyId", user.CompanyId.ToString()));
+
+            return identity;
         }
     }
 }
