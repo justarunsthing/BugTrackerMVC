@@ -1,4 +1,7 @@
-﻿<div class="row">
+﻿@using BugTrackerMVC.ViewModels
+@model IEnumerable<ManageUserRolesViewModel>
+
+<div class="row">
     <h2 class="mt-0 h3">
         Manage User Roles
     </h2>
@@ -18,6 +21,24 @@
                     </p>
                     <hr />
                     <form asp-action="ManageUserRoles" asp-controller="UserRoles" method="post">
+                        <input type="hidden" asp-for="@member.BTUser.Id" />
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label asp-for="@member.Roles" class="custom-label">
+                                        Roles for @member.BTUser.FullName
+                                    </label>
+                                    <select asp-for="@member.SelectedRoles" class="form-control" asp-items="@member.Roles" multiple>
+
+                                    </select>
+                                    <hr />
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Assign Role" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

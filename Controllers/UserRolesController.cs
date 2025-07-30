@@ -18,6 +18,7 @@ namespace BugTrackerMVC.Controllers
             _companyInfoService = companyInfoService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> ManageUserRoles()
         {
             List<ManageUserRolesViewModel> model = [];
