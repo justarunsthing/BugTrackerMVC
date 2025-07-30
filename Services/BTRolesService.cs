@@ -2,6 +2,7 @@
 using BugTrackerMVC.Interfaces;
 using BugTrackerMVC.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerMVC.Services
 {
@@ -70,6 +71,20 @@ namespace BugTrackerMVC.Services
             var result = await _roleManager.GetRoleNameAsync(role);
 
             return result;
+        }
+
+        public async Task<List<IdentityRole>> GetRolesAsync()
+        {
+            try
+            {
+                var result = await _context.Roles.ToListAsync();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
