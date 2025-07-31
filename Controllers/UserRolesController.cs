@@ -41,5 +41,25 @@ namespace BugTrackerMVC.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ManageUserRoles(ManageUserRolesViewModel member)
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+            BTUser btUser = (await _companyInfoService.GetAllMembersAsync(companyId)).FirstOrDefault(u => u.Id == member.BTUser.Id);
+            IEnumerable<string> roles = await _rolesService.GetUserRolesAsync(btUser);
+            string userRole = member.SelectedRoles.FirstOrDefault();
+
+            if (!string.IsNullOrEmpty(userRole))
+            {
+                if (await _rolesService.RemoveUserFromRolesAsync(btUser, roles))
+                {
+                    await _rolesService.AddUserToRoleAsync(btUser, userRole);
+                }
+            }
+
+            return RedirectToAction(nameof(ManageUserRoles));
+        }
     }
 }
