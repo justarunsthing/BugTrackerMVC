@@ -1,10 +1,18 @@
-﻿using BugTrackerMVC.Models;
+﻿using BugTrackerMVC.Data;
+using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
 
 namespace BugTrackerMVC.Services
 {
     public class BTLookupService : IBTLookupService
     {
+        private readonly ApplicationDbContext _context;
+
+        public BTLookupService(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public Task<List<ProjectPriority>> GetProjectPrioritiesAsync()
         {
             throw new NotImplementedException();
