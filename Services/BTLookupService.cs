@@ -1,6 +1,7 @@
 ﻿using BugTrackerMVC.Data;
 using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerMVC.Services
 {
@@ -13,9 +14,16 @@ namespace BugTrackerMVC.Services
             _context = context;
         }
 
-        public Task<List<ProjectPriority>> GetProjectPrioritiesAsync()
+        public async Task<List<ProjectPriority>> GetProjectPrioritiesAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.ProjectPriorities.ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<List<TicketPriority>> GetTicketPrioritiesAsync()
