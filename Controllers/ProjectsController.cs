@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BugTrackerMVC.Data;
 using BugTrackerMVC.Models;
+using BugTrackerMVC.Interfaces;
 
 namespace BugTrackerMVC.Controllers
 {
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IBTRolesService _rolesService;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectsController(ApplicationDbContext context, IBTRolesService rolesService)
         {
             _context = context;
+            _rolesService = rolesService;
         }
 
         // GET: Projects
@@ -48,7 +51,7 @@ namespace BugTrackerMVC.Controllers
 
         // GET: Projects/Create
         public IActionResult Create()
-        {
+            {
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id");
             ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id");
             return View();
