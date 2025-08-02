@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using BugTrackerMVC.Data;
 using BugTrackerMVC.Models;
 using BugTrackerMVC.Interfaces;
+using BugTrackerMVC.Extensions;
+using BugTrackerMVC.ViewModels;
+using BugTrackerMVC.Enums;
 
 namespace BugTrackerMVC.Controllers
 {
@@ -52,11 +55,16 @@ namespace BugTrackerMVC.Controllers
         }
 
         // GET: Projects/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+            var model = new AddProjectWithPMViewModel
             {
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id");
-            ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id");
-            return View();
+                PMList = new SelectList(await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId), "Id", "FullName"),
+                PriorityList = new SelectList(await _lookupService.GetProjectPrioritiesAsync(), "Id", "Name"),
+            };
+
+            return View(model);
         }
 
         // POST: Projects/Create
