@@ -19,12 +19,14 @@ namespace BugTrackerMVC.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IBTRolesService _rolesService;
         private readonly IBTLookupService _lookupService;
+        private readonly IBTFileService _fileService;
 
-        public ProjectsController(ApplicationDbContext context, IBTRolesService rolesService, IBTLookupService lookupService)
+        public ProjectsController(ApplicationDbContext context, IBTRolesService rolesService, IBTLookupService lookupService, IBTFileService fileService)
         {
             _context = context;
             _rolesService = rolesService;
             _lookupService = lookupService;
+            _fileService = fileService;
         }
 
         // GET: Projects
