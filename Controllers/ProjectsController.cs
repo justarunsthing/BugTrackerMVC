@@ -97,7 +97,7 @@ namespace BugTrackerMVC.Controllers
 
                     if (!string.IsNullOrEmpty(model.PMId))
                     {
-                        await _projectService.AddUserToProjectAsync(model.PMId, model.Project.Id);
+                        await _projectService.AddProjectManagerAsync(model.PMId, model.Project.Id);
                     }
                 }
                 catch (Exception)
