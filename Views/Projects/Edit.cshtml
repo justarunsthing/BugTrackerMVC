@@ -14,6 +14,8 @@
         <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Project.Id" />
+            <input type="hidden" asp-for="Project.CompanyId" />
+
             <div class="form-group">
                 <label asp-for="Project.Name" class="control-label"></label>
                 <input asp-for="Project.Name" class="form-control" />
