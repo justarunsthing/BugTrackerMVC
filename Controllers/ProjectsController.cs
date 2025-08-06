@@ -209,6 +209,18 @@ namespace BugTrackerMVC.Controllers
             return View(project);
         }
 
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var companyId = User.Identity.GetCompanyId().Value;
+            var project = await _projectService.GetProjectByIdAsync(id, companyId);
+
+            await _projectService.RestoreProjectAsync(project);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool ProjectExists(int id)
         {
             return _context.Projects.Any(e => e.Id == id);
