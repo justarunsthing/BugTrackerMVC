@@ -27,6 +27,9 @@ namespace BugTrackerMVC.Models
         [DisplayName("Archived")]
         public bool IsArchived { get; set; }
 
+        [DisplayName("ArchivedByProject")]
+        public bool IsArchivedByProject { get; set; }
+
         [DisplayName("Project")]
         public int ProjectId { get; set; }
 
