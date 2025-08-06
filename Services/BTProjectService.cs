@@ -352,6 +352,11 @@ namespace BugTrackerMVC.Services
             }
         }
 
+        public async Task RestoreProjectAsync(Project project)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateProjectAsync(Project project)
         {
             _context.Update(project);
