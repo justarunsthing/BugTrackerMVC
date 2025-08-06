@@ -191,6 +191,24 @@ namespace BugTrackerMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Restore(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int companyId = User.Identity.GetCompanyId().Value;
+            var project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            return View(project);
+        }
+
         private bool ProjectExists(int id)
         {
             return _context.Projects.Any(e => e.Id == id);
