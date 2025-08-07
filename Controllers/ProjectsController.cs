@@ -11,6 +11,7 @@ using BugTrackerMVC.Interfaces;
 using BugTrackerMVC.Extensions;
 using BugTrackerMVC.ViewModels;
 using BugTrackerMVC.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace BugTrackerMVC.Controllers
 {
@@ -21,14 +22,21 @@ namespace BugTrackerMVC.Controllers
         private readonly IBTLookupService _lookupService;
         private readonly IBTFileService _fileService;
         private readonly IBTProjectService _projectService;
+        private readonly UserManager<BTUser> _userManager;
 
-        public ProjectsController(ApplicationDbContext context, IBTRolesService rolesService, IBTLookupService lookupService, IBTFileService fileService, IBTProjectService projectService)
+        public ProjectsController(ApplicationDbContext context, 
+                                  IBTRolesService rolesService, 
+                                  IBTLookupService lookupService, 
+                                  IBTFileService fileService, 
+                                  IBTProjectService projectService,
+                                  UserManager<BTUser> userManager)
         {
             _context = context;
             _rolesService = rolesService;
             _lookupService = lookupService;
             _fileService = fileService;
             _projectService = projectService;
+            _userManager = userManager;
         }
 
         // GET: Projects
