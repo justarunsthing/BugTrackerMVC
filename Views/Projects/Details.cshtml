@@ -171,8 +171,31 @@
                             <hr />
                         </div>
                         <div class="body" style="overflow-y:auto;height:300px;background-color:antiquewhite">
-                            @* Project Activity loop *@
-                            [Project Activity  e.g. Ticket History]
+                            @foreach (var history in await HistoryService.GetProjectTicketsHistoriesAsync(Model.Id, btUser.CompanyId))
+                            {
+                                <div class="">
+                                    <span class="date">
+                                        @history.Created.ToString("dd MMM, yyyy")
+                                    </span>
+                                    <h6>
+                                        @history.Description
+                                    </h6>
+                                    <span>
+                                        By: <a href="" title="@history.User.FullName">@history.User.FullName</a>
+                                    </span>
+                                    <div class="">
+                                        <p>
+                                            The ticket <b>@history.Property</b> was edited
+                                        </p>
+                                        <p>
+                                            @($"Previous {history.Property}: {history.OldValue}")
+                                        </p>
+                                        <p>
+                                            @($"Current {history.Property}: {history.NewValue}")
+                                        </p>
+                                    </div>
+                                </div>
+                            }
                         </div>
 
                     </div>
