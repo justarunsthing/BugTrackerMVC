@@ -19,12 +19,14 @@ namespace BugTrackerMVC.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
         private readonly IBTProjectService _projectService;
+        private readonly IBTLookupService _lookupService;
 
-        public TicketsController(ApplicationDbContext context, UserManager<BTUser> userManager, IBTProjectService projectService)
+        public TicketsController(ApplicationDbContext context, UserManager<BTUser> userManager, IBTProjectService projectService, IBTLookupService lookupService)
         {
             _context = context;
             _userManager = userManager;
             _projectService = projectService;
+            _lookupService = lookupService;
         }
 
         // GET: Tickets
