@@ -38,9 +38,16 @@ namespace BugTrackerMVC.Services
             }
         }
 
-        public Task<List<TicketStatus>> GetTicketStatusesAsync()
+        public async Task<List<TicketStatus>> GetTicketStatusesAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.TicketStatuses.ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Task<List<TicketType>> GetTicketTypesAsync()
