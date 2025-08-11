@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BugTrackerMVC.Data;
 using BugTrackerMVC.Models;
 using Microsoft.AspNetCore.Identity;
+using BugTrackerMVC.Interfaces;
 
 namespace BugTrackerMVC.Controllers
 {
@@ -15,11 +16,13 @@ namespace BugTrackerMVC.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
+        private readonly IBTProjectService _projectService;
 
-        public TicketsController(ApplicationDbContext context, UserManager<BTUser> userManager)
+        public TicketsController(ApplicationDbContext context, UserManager<BTUser> userManager, IBTProjectService projectService)
         {
             _context = context;
             _userManager = userManager;
+            _projectService = projectService;
         }
 
         // GET: Tickets
