@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BugTrackerMVC.Data;
 using BugTrackerMVC.Models;
 using Microsoft.AspNetCore.Identity;
+using BugTrackerMVC.Extensions;
+using BugTrackerMVC.Enums;
 using BugTrackerMVC.Interfaces;
 
 namespace BugTrackerMVC.Controllers
@@ -57,9 +59,20 @@ namespace BugTrackerMVC.Controllers
         }
 
         // GET: Tickets/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
+            var btUser = await _userManager.GetUserAsync(User);
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            if (User.IsInRole(nameof(Roles.Admin)))
+            {
+                ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyAsync(companyId), "Id", "Name");
+            }
+            else
+            {
+                ViewData["ProjectId"] = new SelectList(await _projectService.GetUserProjectsAsync(btUser.Id), "Id", "Name");
+            }
+
             ViewData["TicketPriorityId"] = new SelectList(_context.TicketPriorities, "Id", "Id");
             ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id");
 
