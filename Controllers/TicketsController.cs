@@ -70,11 +70,10 @@ namespace BugTrackerMVC.Controllers
         public async Task<IActionResult> Create()
         {
             var btUser = await _userManager.GetUserAsync(User);
-            int companyId = User.Identity.GetCompanyId().Value;
 
             if (User.IsInRole(nameof(Roles.Admin)))
             {
-                ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyAsync(companyId), "Id", "Name");
+                ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyAsync(btUser.CompanyId), "Id", "Name");
             }
             else
             {
@@ -82,7 +81,7 @@ namespace BugTrackerMVC.Controllers
             }
 
             ViewData["TicketPriorityId"] = new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name");
-            ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketStatusesAsync(), "Id", "Name");
+            ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name");
 
             return View();
         }
