@@ -223,9 +223,11 @@ namespace BugTrackerMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TicketExists(int id)
+        private async Task<bool> TicketExists(int id)
         {
-            return _context.Tickets.Any(e => e.Id == id);
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            return (await _ticketService.GetAllTicketsByCompanyAsync(companyId)).Any(t => t.Id == id);
         }
     }
 }
