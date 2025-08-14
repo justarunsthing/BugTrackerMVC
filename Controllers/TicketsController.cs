@@ -217,6 +217,24 @@ namespace BugTrackerMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Tickets/Restore/5
+        public async Task<IActionResult> Restore(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ticket = await _ticketService.GetTicketByIdAsync(id.Value);
+
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            return View(ticket);
+        }
+
         private async Task<bool> TicketExists(int id)
         {
             int companyId = User.Identity.GetCompanyId().Value;
