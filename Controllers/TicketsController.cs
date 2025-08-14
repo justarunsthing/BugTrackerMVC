@@ -235,6 +235,19 @@ namespace BugTrackerMVC.Controllers
             return View(ticket);
         }
 
+        // POST: Tickets/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var ticket = await _ticketService.GetTicketByIdAsync(id);
+            ticket.IsArchived = false;
+
+            await _ticketService.UpdateTicketAsync(ticket);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private async Task<bool> TicketExists(int id)
         {
             int companyId = User.Identity.GetCompanyId().Value;
