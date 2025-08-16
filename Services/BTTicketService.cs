@@ -279,6 +279,9 @@ namespace BugTrackerMVC.Services
                                      .Include(t => t.TicketPriority)
                                      .Include(t => t.TicketStatus)
                                      .Include(t => t.TicketType)
+                                     .Include(t => t.TicketComments)
+                                     .Include(t => t.TicketAttachments)
+                                     .Include(t => t.History)
                                      .FirstOrDefaultAsync(t => t.Id == ticketId);
 
             }
