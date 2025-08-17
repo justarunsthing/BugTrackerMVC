@@ -87,7 +87,34 @@
 
 								<h6>Comments</h6>
 								<ul class="right_chat list-unstyled mb-0">
-									@*Loop to show comments made for the Ticket*@
+									@foreach (var comment in Model.TicketComments)
+									{
+										<li class="online mb-4">
+											<div class="media">
+												<a href="javascript:void(0);">
+													@if (btUser?.AvatarFileData != null)
+													{
+														<img class="media-object" src="data:image/*;base64,@(Convert.ToBase64String(btUser.AvatarFileData))" alt="" />
+													}
+													else
+													{
+														<img class="media-object" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" alt="" style="width: 30px; height: 30px;"/>
+													}
+												</a>
+												<div class="media-body">
+													<span class="text-muted" style="font-size: x-small;">
+														@@ @comment.User.FullName
+														<small class="float-right">
+															@comment.Created.ToString("MM.dd.yyyy h:ss tt")
+														</small>:
+													</span>
+												</div>
+												<span class="message text-primary">
+													@Html.Raw(comment.Comment)
+												</span>
+											</div>
+										</li>
+									}
 								</ul>
 							</div>
 							<div class="card-footer">
