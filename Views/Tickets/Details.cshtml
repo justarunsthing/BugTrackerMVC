@@ -63,9 +63,28 @@
 								<h2>Comments</h2>
 							</div>
 							<div class="card-body" style="overflow-y:auto;height:600px;">
+								<form class="form-horizontal form-bordered" asp-action="AddTicketComment" asp-controller="Tickets" method="post">
+									<input type="hidden" asp-for="Id" name="TicketId" />
 
-								@*Form and Logic for authorized users to add comments*@
+									@if (Model.DeveloperUserId == btUser.Id || Model.OwnerUserId == btUser.Id || projectManager?.Id == btUser.Id || User.IsInRole(nameof(Roles.Admin)))
+									{
+										<div class="form-group">
+											<textarea asp-for="@(new TicketComment().Comment)" rows="8" class="form-control" required placeholder="Add comment ... "></textarea>
+										</div>
+										<button class="btn btn-sm btn-primary">
+											Submit
+										</button>
+									}
+									else
+									{
+										<div class="form-group">
+											<textarea disabled asp-for="@(new TicketComment().Comment)" rows="8" class="form-control" required placeholder="Add comment ... "></textarea>
+										</div>
+									}
+								</form>
+
 								<hr />
+
 								<h6>Comments</h6>
 								<ul class="right_chat list-unstyled mb-0">
 									@*Loop to show comments made for the Ticket*@
