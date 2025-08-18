@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using BugTrackerMVC.Extensions;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +23,9 @@ namespace BugTrackerMVC.Models
 
         [NotMapped]
         [DataType(DataType.Upload)]
+        [DisplayName("Select a file")]
+        [MaxFileSize(1024 * 1024)]
+        [AllowedExtensions(new string[] { ".jpg", ".png", ".doc", ".docx", ".xls", ".xlsx", ".pdf" })]
         public IFormFile File { get; set; }
 
         [DisplayName("File Name")]
