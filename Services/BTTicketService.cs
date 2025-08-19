@@ -415,6 +415,21 @@ namespace BugTrackerMVC.Services
                 throw;
             }
         }
+        public async Task<TicketAttachment> GetTicketAttachmentByIdAsync(int ticketAttachmentId)
+        {
+            try
+            {
+                var ticketAttachment = await _context.TicketAttachments
+                                                     .Include(t => t.User)
+                                                     .FirstOrDefaultAsync(t => t.Id == ticketAttachmentId);
+
+                return ticketAttachment;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public async Task<int?> LookupTicketPriorityIdAsync(string priorityName)
         {
