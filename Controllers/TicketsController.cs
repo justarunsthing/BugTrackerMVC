@@ -234,7 +234,7 @@ namespace BugTrackerMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTicketAttachment([Bind("Id,FormFile,Description,TicketId")] TicketAttachment ticketAttachment)
+        public async Task<IActionResult> AddTicketAttachment([Bind("Id,File,FileDescription,TicketId")] TicketAttachment ticketAttachment)
         {
             string statusMessage;
 
