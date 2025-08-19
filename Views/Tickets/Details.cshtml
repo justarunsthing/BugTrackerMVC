@@ -149,9 +149,28 @@
 										</form>
 									</div>
 								</div>
-
-								@* Ticket attachments part 2 here *@
-
+								<hr />
+								<h6>Attachments</h6>
+								<div class="container">
+									<div class="row">
+										@foreach (var attachment in Model.TicketAttachments)
+										{
+											<div class="col col-sm-2">
+												<a asp-action="ShowFile" asp-controller="Tickets" asp-route-Id="@attachment.Id">
+													<div class="icon">
+														<img src="@FileService.GetFileIcon(attachment.FileName)" style="height:50px;width:50px" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="@attachment.FileName" />
+													</div>
+												</a>
+												<div style="font-size:x-small">
+													<div class="file-name">
+														<strong>@attachment.FileDescription</strong>
+													</div>
+													<small>Size: @FileService.FormatFileSize(attachment.FileData.Length) </small>
+												</div>
+											</div>
+										}
+									</div>
+								</div>
 							</div>
 							<div class="card-footer">
 							</div>
