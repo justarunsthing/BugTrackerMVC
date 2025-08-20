@@ -1,8 +1,10 @@
 ﻿using BugTrackerMVC.Data;
-using BugTrackerMVC.Models;
-using BugTrackerMVC.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using BugTrackerMVC.Enums;
+using BugTrackerMVC.Interfaces;
+using BugTrackerMVC.Models;
+using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace BugTrackerMVC.Services
 {
@@ -415,6 +417,7 @@ namespace BugTrackerMVC.Services
                 throw;
             }
         }
+
         public async Task<TicketAttachment> GetTicketAttachmentByIdAsync(int ticketAttachmentId)
         {
             try
@@ -482,6 +485,22 @@ namespace BugTrackerMVC.Services
             {
                 _context.Update(ticket);
                 await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<Ticket>> GetUnassignedTicketsAsync(int companyId)
+        {
+            var tickets = new List<Ticket>();
+
+            try
+            {
+                tickets = (await GetAllTicketsByCompanyAsync(companyId)).Where(t => string.IsNullOrEmpty(t.DeveloperUserId)).ToList();
+
+                return tickets;
             }
             catch (Exception)
             {
