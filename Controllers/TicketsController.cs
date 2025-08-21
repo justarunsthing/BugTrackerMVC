@@ -3,6 +3,7 @@ using BugTrackerMVC.Enums;
 using BugTrackerMVC.Extensions;
 using BugTrackerMVC.Interfaces;
 using BugTrackerMVC.Models;
+using BugTrackerMVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -98,6 +99,16 @@ namespace BugTrackerMVC.Controllers
 
                 return View(pmTickets);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AssignDeveloper(int id)
+        {
+            AssignDeveloperViewModel model = new();
+            model.Ticket = await _ticketService.GetTicketByIdAsync(id);
+            model.Developers = new SelectList(await _projectService.GetProjectMembersByRoleAsync(model.Ticket.Id, nameof(Roles.Developer)), "Id", "FullName");
+
+            return View(model);
         }
 
         // GET: Tickets/Details/5
