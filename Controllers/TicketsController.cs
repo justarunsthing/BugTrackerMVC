@@ -111,6 +111,18 @@ namespace BugTrackerMVC.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignDeveloper(AssignDeveloperViewModel model)
+        {
+            if (model.DeveloperId != null)
+            {
+                await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
+            }
+
+            return RedirectToAction(nameof(AssignDeveloper), new { id = model.Ticket.Id });
+        }
+
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
