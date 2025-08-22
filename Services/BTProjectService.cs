@@ -269,6 +269,33 @@ namespace BugTrackerMVC.Services
             throw new NotImplementedException();
         }
 
+        public async Task<List<Project>> GetUnassignedProjectsAsync(int companyId)
+        {
+            List<Project> result = [];
+            List<Project> projects = [];
+
+            try
+            {
+                projects = await _context.Projects
+                                         .Include(p => p.ProjectPriority)
+                                         .Where(p => p.CompanyId == companyId).ToListAsync();
+
+                foreach (var project in projects)
+                {
+                    if ((await GetProjectMembersByRoleAsync(project.Id, nameof(Roles.ProjectManager))).Count == 0)
+                    {
+                        result.Add(project);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
+
         public async Task<List<Project>> GetUserProjectsAsync(string userId)
         {
             try
