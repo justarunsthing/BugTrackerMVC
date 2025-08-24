@@ -116,6 +116,8 @@ namespace BugTrackerMVC.Controllers
             return RedirectToAction(nameof(AssignPm), new { projectId = model.Project.Id });
         }
 
+
+
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
         {
