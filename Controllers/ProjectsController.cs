@@ -116,7 +116,22 @@ namespace BugTrackerMVC.Controllers
             return RedirectToAction(nameof(AssignPm), new { projectId = model.Project.Id });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AssignMembers(int projectId)
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+            var developers = await _rolesService.GetUsersInRoleAsync(nameof(Roles.Developer), companyId);
+            var submitters = await _rolesService.GetUsersInRoleAsync(nameof(Roles.Submitter), companyId);
+            var companyMembers = developers.Concat(submitters).ToList();
+            var model = new ProjectMembersViewModel
+            {
+                Project = await _projectService.GetProjectByIdAsync(projectId, companyId),
+            };
+            var projectMembers = model.Project.Members.Select(m => m.Id).ToList();
+            model.Users = new MultiSelectList(companyMembers, "Id", "FullName", projectMembers);
 
+            return View(model);
+        }
 
         // GET: Projects/Details/5
         public async Task<IActionResult> Details(int? id)
