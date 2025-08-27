@@ -155,6 +155,33 @@ namespace BugTrackerMVC.Services
             }
         }
 
+        public async Task AddHistoryAsync(int ticketId, string model, string userId)
+        {
+            try
+            {
+                var ticket = await _context.Tickets.FindAsync(ticketId);
+                var description = model.ToLower().Replace("Ticket", "");
+                description = $"New {description} added to ticket: {ticket.Title}";
+                var history = new TicketHistory
+                {
+                    TicketId = ticketId,
+                    Property = model,
+                    OldValue = "",
+                    NewValue = "",
+                    Created = DateTimeOffset.UtcNow,
+                    UserId = userId,
+                    Description = description,
+                };
+
+                await _context.TicketHistories.AddAsync(history);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<List<TicketHistory>> GetCompanyTicketHistoriesAsync(int companyId)
         {
             try
