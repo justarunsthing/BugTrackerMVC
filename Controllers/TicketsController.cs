@@ -237,6 +237,9 @@ namespace BugTrackerMVC.Controllers
             {
                 var btUser = await _userManager.GetUserAsync(User);
 
+                // Take a snapshot of the ticket before the update
+                var oldTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+
                 try
                 {
                     ticket.Updated = DateTimeOffset.UtcNow;
@@ -253,6 +256,9 @@ namespace BugTrackerMVC.Controllers
                         throw;
                     }
                 }
+
+                var newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+                await _historyService.AddHistoryAsync(oldTicket, newTicket, btUser.Id);
 
                 return RedirectToAction(nameof(Index));
             }
