@@ -20,13 +20,15 @@ namespace BugTrackerMVC.Controllers
         private readonly IBTLookupService _lookupService;
         private readonly IBTTicketService _ticketService;
         private readonly IBTFileService _fileService;
+        private readonly IBTTicketHistoryService _historyService;
 
         public TicketsController(ApplicationDbContext context, 
                                  UserManager<BTUser> userManager, 
                                  IBTProjectService projectService, 
                                  IBTLookupService lookupService, 
                                  IBTTicketService ticketService,
-                                 IBTFileService fileService)
+                                 IBTFileService fileService,
+                                 IBTTicketHistoryService historyService)
         {
             _context = context;
             _userManager = userManager;
@@ -34,6 +36,7 @@ namespace BugTrackerMVC.Controllers
             _lookupService = lookupService;
             _ticketService = ticketService;
             _fileService = fileService;
+            _historyService = historyService;
         }
 
         // GET: Tickets
