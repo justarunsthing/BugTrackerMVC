@@ -181,6 +181,9 @@ namespace BugTrackerMVC.Controllers
 
                 await _ticketService.AddNewTicketAsync(ticket);
 
+                var newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+                await _historyService.AddHistoryAsync(null, newTicket, btUser.Id);
+
                 return RedirectToAction(nameof(Index));
             }
 
