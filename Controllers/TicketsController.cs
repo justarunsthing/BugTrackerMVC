@@ -120,7 +120,20 @@ namespace BugTrackerMVC.Controllers
         {
             if (model.DeveloperId != null)
             {
-                await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
+                var btUser = await _userManager.GetUserAsync(User);
+                var oldTicket = await _ticketService.GetTicketAsNoTrackingAsync(model.Ticket.Id);
+
+                try
+                {
+                    await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+                var newTicket = await _ticketService.GetTicketAsNoTrackingAsync(model.Ticket.Id);
+                await _historyService.AddHistoryAsync(oldTicket, newTicket, btUser.Id);
             }
 
             return RedirectToAction(nameof(AssignDeveloper), new { id = model.Ticket.Id });
