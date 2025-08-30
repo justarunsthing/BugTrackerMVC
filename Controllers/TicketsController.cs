@@ -326,20 +326,27 @@ namespace BugTrackerMVC.Controllers
 
             if (ModelState.IsValid && ticketAttachment.File != null)
             {
-                ticketAttachment.FileData = await _fileService.ConvertFileToByteArrayAsync(ticketAttachment.File);
-                ticketAttachment.FileName = ticketAttachment.File.FileName;
-                ticketAttachment.FileContentType = ticketAttachment.File.ContentType;
+                try
+                {
+                    ticketAttachment.FileData = await _fileService.ConvertFileToByteArrayAsync(ticketAttachment.File);
+                    ticketAttachment.FileName = ticketAttachment.File.FileName;
+                    ticketAttachment.FileContentType = ticketAttachment.File.ContentType;
 
-                ticketAttachment.Created = DateTimeOffset.Now;
-                ticketAttachment.UserId = _userManager.GetUserId(User);
+                    ticketAttachment.Created = DateTimeOffset.Now;
+                    ticketAttachment.UserId = _userManager.GetUserId(User);
 
-                await _ticketService.AddTicketAttachmentAsync(ticketAttachment);
+                    await _ticketService.AddTicketAttachmentAsync(ticketAttachment);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
                 statusMessage = "Success: New attachment added to Ticket.";
             }
             else
             {
                 statusMessage = "Error: Invalid data.";
-
             }
 
             return RedirectToAction("Details", new { id = ticketAttachment.TicketId, message = statusMessage });
