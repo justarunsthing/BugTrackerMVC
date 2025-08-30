@@ -307,6 +307,7 @@ namespace BugTrackerMVC.Controllers
                     ticketComment.Created = DateTimeOffset.UtcNow;
 
                     await _ticketService.AddTicketCommentAsync(ticketComment);
+                    await _historyService.AddHistoryAsync(ticketComment.TicketId, nameof(TicketComment), ticketComment.UserId);
                 }
                 catch (Exception)
                 {
