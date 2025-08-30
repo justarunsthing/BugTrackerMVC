@@ -160,7 +160,7 @@ namespace BugTrackerMVC.Services
             try
             {
                 var ticket = await _context.Tickets.FindAsync(ticketId);
-                var description = model.ToLower().Replace("Ticket", "");
+                var description = model.ToLower().Replace("ticket", "");
                 description = $"New {description} added to ticket: {ticket.Title}";
                 var history = new TicketHistory
                 {
