@@ -336,6 +336,7 @@ namespace BugTrackerMVC.Controllers
                     ticketAttachment.UserId = _userManager.GetUserId(User);
 
                     await _ticketService.AddTicketAttachmentAsync(ticketAttachment);
+                    await _historyService.AddHistoryAsync(ticketAttachment.TicketId, nameof(TicketAttachment), ticketAttachment.UserId);
                 }
                 catch (Exception)
                 {
