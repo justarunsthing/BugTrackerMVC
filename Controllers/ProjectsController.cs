@@ -262,9 +262,16 @@ namespace BugTrackerMVC.Controllers
                         await _projectService.AddProjectManagerAsync(model.PMId, model.Project.Id);
                     }
                 }
-                catch (Exception)
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!await ProjectExists(model.Project.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
 
                 return RedirectToAction("Index");
