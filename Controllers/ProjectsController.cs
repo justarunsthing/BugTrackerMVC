@@ -332,5 +332,12 @@ namespace BugTrackerMVC.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        private async Task<bool> ProjectExists(int id)
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            return (await _projectService.GetAllProjectsByCompanyAsync(companyId)).Any(p => p.Id == id);
+        }
     }
 }
