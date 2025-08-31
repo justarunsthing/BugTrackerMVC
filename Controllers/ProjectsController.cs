@@ -17,7 +17,6 @@ namespace BugTrackerMVC.Controllers
 {
     public class ProjectsController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IBTRolesService _rolesService;
         private readonly IBTLookupService _lookupService;
         private readonly IBTFileService _fileService;
@@ -25,28 +24,19 @@ namespace BugTrackerMVC.Controllers
         private readonly IBTCompanyInfoService _companyInfoService;
         private readonly UserManager<BTUser> _userManager;
 
-        public ProjectsController(ApplicationDbContext context, 
-                                  IBTRolesService rolesService, 
+        public ProjectsController(IBTRolesService rolesService, 
                                   IBTLookupService lookupService, 
                                   IBTFileService fileService, 
                                   IBTProjectService projectService,
                                   IBTCompanyInfoService companyInfoService,
                                   UserManager<BTUser> userManager)
         {
-            _context = context;
             _rolesService = rolesService;
             _lookupService = lookupService;
             _fileService = fileService;
             _projectService = projectService;
             _companyInfoService = companyInfoService;
             _userManager = userManager;
-        }
-
-        // GET: Projects
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.Projects.Include(p => p.Company).Include(p => p.ProjectPriority);
-            return View(await applicationDbContext.ToListAsync());
         }
 
         public async Task<IActionResult> MyProjects()
@@ -341,11 +331,6 @@ namespace BugTrackerMVC.Controllers
             await _projectService.RestoreProjectAsync(project);
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ProjectExists(int id)
-        {
-            return _context.Projects.Any(e => e.Id == id);
         }
     }
 }
