@@ -111,6 +111,7 @@ namespace BugTrackerMVC.Controllers
             return RedirectToAction(nameof(AssignPm), new { projectId = model.Project.Id });
         }
 
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpGet]
         public async Task<IActionResult> AssignMembers(int projectId)
         {
@@ -128,6 +129,7 @@ namespace BugTrackerMVC.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignMembers(ProjectMembersViewModel model)
