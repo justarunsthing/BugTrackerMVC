@@ -83,6 +83,7 @@ namespace BugTrackerMVC.Controllers
             return View(projects);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AssignPm(int projectId)
         {
             int companyId = User.Identity.GetCompanyId().Value;
