@@ -12,9 +12,11 @@ using BugTrackerMVC.Extensions;
 using BugTrackerMVC.ViewModels;
 using BugTrackerMVC.Enums;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BugTrackerMVC.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private readonly IBTRolesService _rolesService;
