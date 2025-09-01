@@ -96,6 +96,7 @@ namespace BugTrackerMVC.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignPm(AssignPMViewModel model)
