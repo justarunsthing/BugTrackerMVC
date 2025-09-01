@@ -74,6 +74,7 @@ namespace BugTrackerMVC.Controllers
             return View(projects);
         }
 
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> UnassignedProjects()
         {
             int companyId = User.Identity.GetCompanyId().Value;
