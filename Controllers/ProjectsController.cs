@@ -291,6 +291,7 @@ namespace BugTrackerMVC.Controllers
             return RedirectToAction("Edit");
         }
 
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)
@@ -309,6 +310,7 @@ namespace BugTrackerMVC.Controllers
             return View(project);
         }
 
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ArchiveConfirmed(int id)
