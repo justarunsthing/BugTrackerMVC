@@ -96,6 +96,7 @@ namespace BugTrackerMVC.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> AssignDeveloper(int id)
         {
             AssignDeveloperViewModel model = new();
@@ -107,6 +108,7 @@ namespace BugTrackerMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> AssignDeveloper(AssignDeveloperViewModel model)
         {
             if (model.DeveloperId != null)
