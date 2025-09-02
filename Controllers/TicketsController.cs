@@ -380,6 +380,7 @@ namespace BugTrackerMVC.Controllers
         }
 
         // GET: Tickets/Restore/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Restore(int? id)
         {
             if (id == null)
@@ -400,6 +401,7 @@ namespace BugTrackerMVC.Controllers
         // POST: Tickets/Restore/5
         [HttpPost, ActionName("Restore")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> RestoreConfirmed(int id)
         {
             var ticket = await _ticketService.GetTicketByIdAsync(id);
