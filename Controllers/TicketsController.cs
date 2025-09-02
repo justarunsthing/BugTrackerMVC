@@ -347,6 +347,7 @@ namespace BugTrackerMVC.Controllers
         }
 
         // GET: Tickets/Archive/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)
@@ -367,6 +368,7 @@ namespace BugTrackerMVC.Controllers
         // POST: Tickets/Archive/5
         [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> ArchiveConfirmed(int id)
         {
             var ticket = await _ticketService.GetTicketByIdAsync(id);
