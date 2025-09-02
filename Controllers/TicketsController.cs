@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerMVC.Controllers
 {
+    [Authorize]
     public class TicketsController : Controller
     {
         private readonly UserManager<BTUser> _userManager;
