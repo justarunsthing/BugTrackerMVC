@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using BugTrackerMVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using BugTrackerMVC.Extensions;
 
 namespace BugTrackerMVC.Controllers
 {
@@ -20,6 +21,8 @@ namespace BugTrackerMVC.Controllers
 
         public async Task<IActionResult> Dashboard()
         {
+            int companyId = User.Identity.GetCompanyId().Value;
+
             return View();
         }
 
