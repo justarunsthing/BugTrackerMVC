@@ -2,16 +2,19 @@ using System.Diagnostics;
 using BugTrackerMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using BugTrackerMVC.Extensions;
+using BugTrackerMVC.Interfaces;
 
 namespace BugTrackerMVC.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IBTCompanyInfoService _companyInfoService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IBTCompanyInfoService companyInfoService)
         {
             _logger = logger;
+            _companyInfoService = companyInfoService;
         }
 
         public IActionResult Index()
