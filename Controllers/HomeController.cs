@@ -3,6 +3,7 @@ using BugTrackerMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using BugTrackerMVC.Extensions;
 using BugTrackerMVC.Interfaces;
+using BugTrackerMVC.ViewModels;
 
 namespace BugTrackerMVC.Controllers
 {
@@ -25,8 +26,15 @@ namespace BugTrackerMVC.Controllers
         public async Task<IActionResult> Dashboard()
         {
             int companyId = User.Identity.GetCompanyId().Value;
+            var model = new DashboardViewModel
+            {
+                Company = await _companyInfoService.GetCompanyInfoByIdAsync(companyId),
+                Projects = (await _companyInfoService.GetAllProjectsAsync(companyId)).Where(p => p.IsArchived == false).ToList()
+            };
+            model.Tickets = model.Projects.SelectMany(p => p.Tickets).Where(t => t.IsArchived == false).ToList();
+            model.Members = model.Company.Members.ToList();
 
-            return View();
+            return View(model);
         }
 
         public IActionResult Privacy()
