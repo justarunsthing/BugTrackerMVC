@@ -1,6 +1,11 @@
-﻿@{
+﻿@model BugTrackerMVC.ViewModels.DashboardViewModel
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<BTUser> UserManager
+
+@{
 	ViewData["Title"] = "Dashboard";
-	@* Instantiate the btUser *@
+    var btUser = await UserManager.GetUserAsync(User);
 }
 
 <h1>Dashboard</h1>
