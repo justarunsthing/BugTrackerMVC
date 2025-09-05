@@ -205,7 +205,17 @@
 							<hr />
 						</div>
 						<div class="card-body" style="overflow-y:auto;height:600px;background-color:antiquewhite">
-							@* Looop over Company members. Display Name and Role *@
+							@foreach (var member in Model.Members)
+							{
+								<div class="">
+									<span style="font-weight: bold;">
+                                        @member.FullName
+									</span>
+									<h6>
+										@((await RolesService.GetUserRolesAsync(member)).FirstOrDefault())
+									</h6>
+								</div>
+							}
 						</div>
 					</div>
 				</div>
