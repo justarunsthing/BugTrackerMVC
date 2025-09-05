@@ -50,7 +50,7 @@
                                     }
 
                                     <td><span class="badge bg-dark">@ticket.TicketPriority.Name </span></td>
-                                    <td>@ticket.Created.ToString("MM-dd-yyyy")</td>
+                                    <td>@ticket.Created.ToString("dd-MM-yyyy")</td>
                                     <td>
                                         <a class="btn btn-sm btn-outline-info" asp-action="Details" asp-controller="Tickets" asp-route-id="@ticket.Id"><i class="fs-5 bi-justify"></i></a>
                                     </td>
