@@ -1,7 +1,9 @@
 ﻿@model BugTrackerMVC.ViewModels.DashboardViewModel
+@using BugTrackerMVC.Interfaces
 @using Microsoft.AspNetCore.Identity
 
 @inject UserManager<BTUser> UserManager
+@inject IBTRolesService RolesService
 
 @{
 	ViewData["Title"] = "Dashboard";
