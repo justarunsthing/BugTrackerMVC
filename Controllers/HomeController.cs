@@ -1,9 +1,11 @@
-using System.Diagnostics;
-using BugTrackerMVC.Models;
-using Microsoft.AspNetCore.Mvc;
+using BugTrackerMVC.Enums;
 using BugTrackerMVC.Extensions;
 using BugTrackerMVC.Interfaces;
+using BugTrackerMVC.Models;
 using BugTrackerMVC.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Diagnostics;
 
 namespace BugTrackerMVC.Controllers
 {
@@ -63,6 +65,26 @@ namespace BugTrackerMVC.Controllers
             foreach (Project prj in projects)
             {
                 chartData.Add(new object[] { prj.Name, prj.Tickets.Count() });
+            }
+
+            return Json(chartData);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GglProjectPriority()
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Project> projects = await _projectService.GetAllProjectsByCompanyAsync(companyId);
+
+            List<object> chartData = new();
+            chartData.Add(new object[] { "Priority", "Count" });
+
+
+            foreach (string priority in Enum.GetNames(typeof(BTProjectPriority)))
+            {
+                int priorityCount = (await _projectService.GetAllProjectsByPriorityAsync(companyId, priority)).Count();
+                chartData.Add(new object[] { priority, priorityCount });
             }
 
             return Json(chartData);
