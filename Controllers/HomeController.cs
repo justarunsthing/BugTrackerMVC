@@ -2,6 +2,7 @@ using BugTrackerMVC.Enums;
 using BugTrackerMVC.Extensions;
 using BugTrackerMVC.Interfaces;
 using BugTrackerMVC.Models;
+using BugTrackerMVC.Models.ChartModels;
 using BugTrackerMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -88,6 +89,33 @@ namespace BugTrackerMVC.Controllers
             }
 
             return Json(chartData);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> AmCharts()
+        {
+
+            AmChartData amChartData = new();
+            List<AmItem> amItems = new();
+
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Project> projects = (await _companyInfoService.GetAllProjectsAsync(companyId)).Where(p => p.IsArchived == false).ToList();
+
+            foreach (Project project in projects)
+            {
+                AmItem item = new();
+
+                item.Project = project.Name;
+                item.Tickets = project.Tickets.Count;
+                item.Developers = (await _projectService.GetProjectMembersByRoleAsync(project.Id, nameof(Roles.Developer))).Count();
+
+                amItems.Add(item);
+            }
+
+            amChartData.Data = amItems.ToArray();
+
+            return Json(amChartData.Data);
         }
     }
 }
