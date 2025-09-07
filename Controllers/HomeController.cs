@@ -11,11 +11,13 @@ namespace BugTrackerMVC.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IBTCompanyInfoService _companyInfoService;
+        private readonly IBTProjectService _projectService;
 
-        public HomeController(ILogger<HomeController> logger, IBTCompanyInfoService companyInfoService)
+        public HomeController(ILogger<HomeController> logger, IBTCompanyInfoService companyInfoService, IBTProjectService projectService)
         {
             _logger = logger;
             _companyInfoService = companyInfoService;
+            _projectService = projectService;
         }
 
         public IActionResult Index()
