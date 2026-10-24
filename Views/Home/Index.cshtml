@@ -1,8 +1,39 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<BTUser> SignInManager
+@{
+    ViewData["Title"] = "Home";
+    var signedIn = SignInManager.IsSignedIn(User);
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero">
+    <p class="eyebrow">Company workspace</p>
+    <h1>Every defect has an owner.</h1>
+    <p class="lede">Track projects, tickets, and the people assigned to them. Work stays inside your company, from the first report through archive.</p>
+    <div class="hero-actions">
+        @if (signedIn)
+        {
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Dashboard">Open dashboard</a>
+            <a class="btn btn-outline-secondary" asp-controller="Tickets" asp-action="AllTickets">Browse tickets</a>
+        }
+        else
+        {
+            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Login">Sign in</a>
+            <a class="btn btn-outline-secondary" asp-area="Identity" asp-page="/Account/Register">Create an account</a>
+        }
+    </div>
+</section>
+
+<section class="feature-grid" aria-label="What you can track">
+    <article class="feature-card">
+        <h2>Projects</h2>
+        <p>Dates, priority, a manager, and the developers and submitters on the team.</p>
+    </article>
+    <article class="feature-card">
+        <h2>Tickets</h2>
+        <p>Type, status, and priority, plus comments, files, and a history of each change.</p>
+    </article>
+    <article class="feature-card">
+        <h2>Roles</h2>
+        <p>Admins and project managers assign the work. Developers and submitters follow their own tickets.</p>
+    </article>
+</section>
